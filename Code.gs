@@ -84,6 +84,13 @@ function doPost(e){
     addKarma(karmaRecipient);
   }
   
+  if (text.indexOf("--") != -1 && text.indeOf("--") < 30) {
+    subtractKarma(name);
+    var karamRecipient = text.substring(0, text.indexOf("--");
+    addkarma(karmaRecipient);
+    sendMessage("Now don't be rude. I'm going to give one of your karma to them.");
+  }  
+  
   if (text.toLowerCase().indexOf("!cal") == 0) {
     var events = listUpcomingEvents();
     var msg = "Events in the next 2 weeks:\n";
@@ -111,6 +118,9 @@ function doPost(e){
   
   if (text.indexOf("!delete") == 0) {
     sendText("Are you trying to delete me? Delete yourself!");
+  }
+  if (text.indexOf("harder") != -1) {
+    sendText("That's what she said");
   }
   
 }
@@ -166,6 +176,20 @@ function addKarma(name) {
   }
   if (karmaAdded == 0) {
     createPerson(name, 1, "No tag set");
+  }
+}
+
+function subtractKarma(name) {
+  var karmaAdded = 0;
+  for (var x = 0; x < databaseGetSize(); x++) {
+    if((database.values[x][0] == name)){
+      currentKarma = database.values[x][1];
+      database.sheet.getRange(x+1, 2).setValue(currentKarma - 1);
+      karmaAdded = -1;
+    }
+  }
+  if (karmaAdded == 0) {
+    createPerson(name, -1, "I am already a looser!");
   }
 }
 
